@@ -1,0 +1,18 @@
+.signup-form{
+    width: 92vw;
+    height: calc(96vh - 64px);
+    margin-top: 4vh;
+    padding: 0 4vw;
+}
+.signup__button{
+    display: block;
+    width: 30%;
+    text-align: center;
+    margin: 1rem auto;
+    padding: 2% 0%;
+    border-radius: 10px;
+    border: solid 1px #9b9b9b;
+    font-size: 1rem;
+    color: #000;
+    background-color: #FFF;
+}

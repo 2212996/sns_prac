@@ -1,0 +1,127 @@
+/* headerを避ける */
+.friends{
+    padding: 64px 0;
+}
+
+/* バックエンド追加機能・友人の検索機能 */
+.friends__search{
+    display: flex;
+    justify-content: space-between;
+    padding: 0 8px;
+    position: fixed;
+    width: calc(100% - 16px);
+    background-color: #ccc;
+    height: calc(2rem + 12px);
+}
+
+.friends__search i{
+    font-size: 2rem;
+    padding: 6px;
+    color: #888;
+}
+
+#id_keyword{
+    border: none;
+    border-bottom: solid 1px #888;
+    margin: 8px 0;
+    width: calc(100% - 8rem);
+    border-radius: 0.4rem;
+    padding: 0 4px;
+}
+
+.friends__search button{
+    margin: 8px 0;
+    border: solid 2px #888;
+    background: none;
+    border-radius: 1rem;
+    color: #888;
+}
+
+.friends__list-wrap-search_text{
+    text-align: center;
+    color: #888;
+}
+
+/* margin:autoと横幅の指定でcalcを上手く利用することで、 */
+/* 単位が違う横幅指定をしつつ                            */
+/* 全体のバランスを取れるように設計する                  */
+.friends__list{
+    width: calc(100% - 32px);
+    height: 4rem;
+    padding: 8px 16px;
+    list-style: none;
+    border-bottom: solid 1px #888;
+}
+
+/* 下にしか枠線を引いていないので、初めの要素にだけ上にも枠線を引くように設定 */
+.friends__list:first-child{
+    border-top: solid 1px #888;
+}
+
+.friends__list-link{
+    text-decoration: none;
+    color: #000;
+}
+
+.friends__list-wrap{
+    width: 100%;
+    margin: 0;
+    margin-top:calc(2rem + 12px);
+    padding: 0;
+}
+
+/* ユーザーアイコンの表示 */
+.friends__list-usericon{
+    position: absolute;
+    /* 縦横の長さを合わせる */
+    height: calc(4rem - 16px);
+    width: calc(4rem - 16px);
+    border: solid 3px #000;
+    border-radius: 50%;
+    float: left;
+    /* ここは調べた方が早い、便利要素object-fit */
+    object-fit: cover;
+    z-index: -1;
+}
+
+.friends__list-username{
+    font-size: 1.2rem;
+    width: calc(100% - 4rem - 8px);
+    margin: 0 0 0 auto;
+}
+
+/* LINEのようにユーザーの最後のやりとりを表示できるようにしてみる */
+.friends__list-talk{
+    width: calc(100% - 4rem - 8px);
+    margin: 1rem 0 1rem auto;
+    display: -webkit-flex;
+    display: flex;
+    -webkit-justify-content: space-between;
+    justify-content: space-between;
+    font-size: 0.8rem;
+    color: #888;
+}
+
+.friends__list-talk-content{
+    max-width: calc(100% - 2.4rem - 16px);
+    margin: auto 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.friends__list-talk-time{
+    width: 2.4rem;
+    margin: auto 0;
+}
+/* ここまで　LINEのようにユーザーの最後のやりとりを表示できるようにしてみる */
+
+/* ここはbaseに入れたいな */
+header{
+    position: fixed;
+    background-color: #eee;
+}
+
+.footer-container{
+    background-color: #eee;
+}

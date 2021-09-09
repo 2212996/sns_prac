@@ -1,0 +1,28 @@
+{% extends 'myapp/base.html' %}
+{% block header-title %}タイムライン{% endblock %}
+{% block content %}
+<!-- トークの表示部分 -->
+<div class="tl_room">
+    <ul class="talk_room__chatboard" id="talk_room__chatboard">
+        <!-- =================== -->
+        <!-- トークに応じて表示  -->
+        <!-- ＞for文を回して表示 -->
+        <!-- =================== -->
+        {% for tweet in tweet %}
+        <!-- ============================================== -->
+        <!-- 自分→友人と友人→自分のメッセージで表示を変える -->
+        <!-- ＞違いを見出してclassの違いに反映              -->
+        <!-- ＞cssにて表示に違いを出す                      -->
+        <!-- ============================================== -->
+        <li class="talk_room__chatboard-content talk_room__chatboard-content-user">
+            <p class="talk_room__chatboard-content-name">＞{{ tweet.tweet_from }}</p>
+            <p class="talk_room__chatboard-content-text">{{ tweet.tweet }}</p>
+            <!-- LINEっぽく -->
+            <p class="talk_room__chatboard-content-time">{{ tweet.time|date:"m/d" }}<br>{{ tweet.time|date:"H:i" }}</p>
+            <!-- LINEここまで -->
+        </li>
+        {% endfor %}
+    </ul>
+</div>
+{% endblock content %}
+{% block footer %}{% endblock %}

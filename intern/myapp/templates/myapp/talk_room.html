@@ -1,0 +1,68 @@
+{% extends 'myapp/base.html' %}
+{% load static %}
+{% block extra_style %}
+<link rel="stylesheet" type="text/css" href="{% static 'myapp/css/talk_room.css' %}">
+{% endblock %}
+
+{% block header-title %}{{ friend.username }}{% endblock %}
+
+{% block content %}
+<div class="talk_room">
+
+    <!-- トークの表示部分 -->
+    <ul class="talk_room__chatboard" id="talk_room__chatboard">
+        <!-- =================== -->
+        <!-- トークに応じて表示  -->
+        <!-- ＞for文を回して表示 -->
+        <!-- =================== -->
+        {% for talk in talk %}
+        <!-- ============================================== -->
+        <!-- 自分→友人と友人→自分のメッセージで表示を変える -->
+        <!-- ＞違いを見出してclassの違いに反映              -->
+        <!-- ＞cssにて表示に違いを出す                      -->
+        <!-- ============================================== -->
+        {% if talk.talk_from == user %}
+        <li class="talk_room__chatboard-content talk_room__chatboard-content-user">
+            <p class="talk_room__chatboard-content-name">＞{{ talk.talk_from }}</p>
+            <p class="talk_room__chatboard-content-text">{{ talk.talk }}</p>
+            <!-- LINEっぽく -->
+            <p class="talk_room__chatboard-content-time">{{ talk.time|date:"m/d" }}<br>{{ talk.time|date:"H:i" }}</p>
+            <!-- LINEここまで -->
+        </li>
+        {% else %}
+        <li class="talk_room__chatboard-content talk_room__chatboard-content-friend">
+            <p class="talk_room__chatboard-content-name">＞{{ talk.talk_from }}</p>
+            <p class="talk_room__chatboard-content-text">{{ talk.talk }}</p>
+            <!-- LINEっぽく -->
+            <p class="talk_room__chatboard-content-time">{{ talk.time|date:"m/d" }}<br>{{ talk.time|date:"H:i" }}</p>
+            <!-- LINEここまで -->
+        </li>
+        {% endif %}
+        {% endfor %}
+    </ul>
+
+    <!-- トークの送信部分 -->
+    <form class="talk_room__sendbox" method="POST">
+        {% csrf_token %}
+        {{ form.talk }}
+        <button class="talk_room__sendbox-btn" type="submit">送信</button>
+    </form>
+
+</div>
+{% endblock content %}
+
+{% block footer %}{% endblock %}
+
+{% block extra_js %}
+<!-- 機能を載せるために不可避だったので、ここだけコピペで実装してください -->
+<script>
+    // 入力予測の表示をさせない（めっちゃ邪魔）
+    document.getElementById('id_talk').setAttribute('autocomplete', 'off');
+    // トークの表示を新しいものを下にしているため、最下にスクロールさせる
+    function scrollToBottom(){
+        var height = document.getElementById("talk_room__chatboard");
+        window.scroll(0, height.scrollHeight);
+    }
+        scrollToBottom();
+</script>
+{% endblock %}

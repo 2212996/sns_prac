@@ -1,0 +1,35 @@
+{% extends 'myapp/base.html' %}
+{% block header-title %}画像{% endblock %}
+{% block content %}
+<form method="post" action="{% url 'user_img_change' %}" enctype="multipart/form-data">
+    <table>
+        {% for field in form %}
+          <tr>
+            <td>{{ field.label_tag }}</td>
+            <td>{{ field }}</td>
+          </tr>
+        {% endfor %}
+        <tr>
+            <td>
+                現在の画像
+                <br>
+                {% if user_img.image %}
+                    <img src="{{ user_img.image.url }}" alt="" width="200">
+                {% else %}
+                    なし
+                {% endif %}
+            </td>
+        </tr>
+    </table>
+    {% csrf_token %}
+    <button type="submit">変更</button>
+    {# エラーメッセージを表示 #}
+    {% if form.errors %}
+        {% for field in setting_form %}
+            {% for error in field.errors %}
+                <p>{{ error }}</p>
+            {% endfor %}
+         {% endfor %}
+    {% endif %}
+</form>    
+{% endblock content %}

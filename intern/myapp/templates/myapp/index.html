@@ -1,0 +1,22 @@
+{% extends 'myapp/base.html' %}
+{% load static %}
+{% block extra_style %}
+    <link rel="stylesheet" type="text/css" href="{% static 'myapp/css/index.css' %}" />
+{% endblock %}
+{% block header %}{% endblock %}
+{% block content %}
+    <div class='index-button__wrapper'>
+        <a href="{% url 'login_view' %}">
+            <span class='index-button'>
+                ログイン
+            </span>
+        </a>
+        <a href="{% url 'signup_view' %}">
+            <span class='index-button'>
+                会員登録
+            </span>
+        </a>
+    </div>
+{% endblock content %}
+{% block footer %}{% endblock %}
+

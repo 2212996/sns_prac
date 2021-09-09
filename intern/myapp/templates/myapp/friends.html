@@ -1,0 +1,110 @@
+{% extends 'myapp/base.html' %}
+{% load static %}
+{% block extra_style %}
+<link rel="stylesheet" type="text/css" href="{% static 'myapp/css/friends.css' %}">
+{% endblock %}
+
+{% block header-title %}友達{% endblock %}
+
+{% block content %}
+<div class="friends">
+
+    <!-- バックエンド追加機能・友人の検索機能 -->
+    <form class="friends__search" method="POST">
+        <i class="fas fa-search"></i>
+        {% csrf_token %}
+        {{ form.keyword }}
+        <button class="friends__search-btn" type="submit">検索</button>
+    </form>
+    <!-- ここまで　バックエンド追加機能・友人の検索機能 -->
+    
+    <!-- 友達のリスト表示部分 -->
+    <ul class="friends__list-wrap">
+
+        <!-- 検索機能の一部 -->
+        {% if is_searched %}
+        <p class="friends__list-wrap-search_text">‐‐検索結果‐‐</p>
+        {% endif %}
+        <!-- ここまで　検索機能の一部 -->
+
+        <!-- =================== -->
+        <!-- 友達に応じて表示    -->
+        <!-- ＞for文を回して表示 -->
+        <!-- =================== -->
+
+        {% comment %}
+        <!-- 最新のトークを表示しないVer --><!-- 今はコメントアウトしてます -->
+        {% for friend in friends %}
+        <li class="friends__list">
+            <!-- それぞれが別のトーク画面に飛ぶようにリンクをはる -->
+            <a class="friends__list-link" href="{% url 'talk_room' friend.username %}">
+                <!-- ========================================== -->
+                <!-- ユーザーに応じたアイコンを表示するために、 -->
+                <!-- ユーザー名に合うかどうかを1個ずつチェック  -->
+                <!-- forとifを組み合わせて調べ上げる            -->
+                <!-- ========================================== -->
+                {% for user_img in user_img %}
+                {% if user_img.user.username == friend.username %}
+                <!-- ユーザーアイコンを検索して、あればその画像を表示 -->
+                <img class="friends__list-usericon" src="/images/{{ user_img.image }}">
+                {% else %}
+                <!-- 無ければNoimage用の画像を表示 -->
+                <img class="friends__list-usericon" src="/images/images/noimage.png">
+                {% endif %}
+                {% endfor %}
+                <!-- ユーザーアイコンのforここまで -->
+                <div class="friends__list-username">{{ friend.username }}</div>
+            </a>
+        </li>
+        {% endfor %}
+        <!-- ここまで　最新のトークを表示しないVer -->
+        {% endcomment %}
+
+        <!-- 最新のトークを表示するVer -->
+        <!-- friendsではなく、作成したtalk_listでforをまわす                    -->
+        <!-- ＞ここでどういうリストなら表示ができるかを考えてリストの項目を設計 -->
+        {% for talk in talk_list %}
+        <li class="friends__list">
+            <!-- それぞれが別のトーク画面に飛ぶようにリンクをはる -->
+            <a class="friends__list-link" href="{% url 'talk_room' talk.0.username %}">
+                <!-- ========================================== -->
+                <!-- ユーザーに応じたアイコンを表示するために、 -->
+                <!-- ユーザー名に合うかどうかを1個ずつチェック  -->
+                <!-- forとifを組み合わせて調べ上げる            -->
+                <!-- ========================================== -->
+                {% for user_img in user_img %}
+                {% if user_img.user.username == talk.0.username %}
+                <!-- ユーザーアイコンを検索して、あればその画像を表示 -->
+                <img class="friends__list-usericon" src="/images/{{ user_img.image }}">
+                {% else %}
+                <!-- 無ければNoimage用の画像を表示 -->
+                <img class="friends__list-usericon" src="/images/images/noimage.png">
+                {% endif %}
+                {% endfor %}
+                <!-- ユーザーアイコンのforここまで -->
+                <div class="friends__list-username">{{ talk.0.username }}</div>
+                <!-- ここから最新のトークを表示する部分 -->
+                <div class="friends__list-talk">
+                    <p class="friends__list-talk-content">{{ talk.1.talk }}</p>
+                    <!-- 時間表示のflagをチェックして、時間を表示するか日付を表示するかを分岐 -->
+                    {% if talk.2 == "time" %}
+                    <p class="friends__list-talk-time">{{ talk.1.time|date:"H:i" }}</p>
+                    {% else %}
+                    <p class="friends__list-talk-time">{{ talk.1.time|date:"m/d" }}</p>
+                    {% endif %}
+                </div>
+            </a>
+        </li>
+        {% endfor %}
+        <!-- ここまで　最新のトークを表示するVer -->
+
+        <!-- 検索機能の一部 -->
+        {% if no_result %}
+        <p class="friends__list-wrap-search_text">‐‐検索結果はありませんでした。‐‐</p>
+        {% endif %}
+        <!-- ここまで　検索機能の一部 -->
+
+    </ul>
+</div>
+
+{% endblock content %}

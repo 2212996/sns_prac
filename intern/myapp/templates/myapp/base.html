@@ -1,0 +1,53 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="{% static 'myapp/css/base.css' %}" />
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css"
+      integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous" />    {% block extra_style %}{% endblock %}
+    <title>DeMiAインターン</title>
+</head>
+<body>
+    {% block header %}
+    <header class="header">
+        <div class="header-container">
+            <span class="header-container__title">
+                {% block header-title %}{% endblock %}
+            </span>
+            {% if is_talk_room %}
+            <a href="{% url 'friends' %}" class="talk_room__back-btn">
+                <i class="fas fa-angle-left"></i>
+            </a>
+            <a href="" class="talk_room__reload">更新</a>
+            {% endif %}
+        </div>
+    </header>
+    {% endblock %}
+
+    {% block content %}
+    {% endblock %}
+
+    {% block footer %}
+    <footer class="footer">
+        <div class="footer-container">
+            <div class="footer-container__item">
+                <a href="{% url 'friends' %}" class="footer-item__link">
+                    <span class="footer-item__icon"><img src="{% static 'myapp/img/people-24px.svg' %}"></span>
+                    <span class="footer-item__text">友達</span>
+                </a>
+            </div>
+            <div class="footer-container__item">
+                <a href="{% url 'setting' %}" class="footer-item__link">
+                    <span class="footer-item__icon"><img src="{% static 'myapp/img/settings-black-18dp.svg' %}"></span>
+                    <span class="footer-item__text">設定</span>
+                </a>
+            </div>
+        </div>
+    </footer>
+    {% endblock %}
+</body>
+{% block extra_js %}{% endblock %}
+</html>
